@@ -10,6 +10,16 @@ import { Equal, Expect } from "../helpers/type-utils";
  * interface to add a makeGreeting function
  */
 
+/**
+ * Here we are using declaration merging. By declaring the interface "Window" again, which already exists on the global scope, we are
+ * able to add a new property to it.
+ */
+declare global {
+  interface Window {
+    makeGreeting: () => string;
+  }
+}
+
 window.makeGreeting = () => "Hello!";
 
 it("Should let you call makeGreeting from the window object", () => {
