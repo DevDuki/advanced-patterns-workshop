@@ -15,7 +15,13 @@ interface NormalUser extends User {
   role: "normal";
 }
 
-function assertUserIsAdmin(user: NormalUser | AdminUser) {
+/**
+ * Here we are using a different kind of predicate function (a cooler one). Instead of returning a boolean, that says whether a value is
+ * of a certain type, we use a function that checks whether the value is of type or not. If it's not, then we throw an error, otherwise
+ * we don't return anything, but we use the "asserts" keyword as the return type. So wherever this function is consumed, the variable
+ * that is passed in this function, becomes an AdminUser type afterwards, without using any return values!
+ */
+function assertUserIsAdmin(user: NormalUser | AdminUser): asserts user is AdminUser {
   if (user.role !== "admin") {
     throw new Error("Not an admin user");
   }
