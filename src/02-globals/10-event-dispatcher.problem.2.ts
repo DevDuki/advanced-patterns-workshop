@@ -6,6 +6,16 @@ import { expect, it } from "vitest";
  * this file?
  */
 
+/** Again we are using declaration merging to sort of make our interface more modular */
+declare global {
+  interface DispatchableEvent {
+    LOG_OUT: {};
+    UPDATE_USERNAME: {
+      username: string;
+    }
+  }
+}
+
 const handler = (event: UnionOfDispatchableEvents) => {
   switch (event.type) {
     case "LOG_OUT":
