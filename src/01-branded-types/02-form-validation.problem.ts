@@ -4,6 +4,9 @@ import { Brand } from "../helpers/Brand";
 type Password = Brand<string, "Password">;
 type Email = Brand<string, "Email">;
 
+/**
+ * Here we validate the values and turn them into branded types, by using the "as" keyword.
+ */
 export const validateValues = (values: { email: string; password: string }) => {
   if (!values.email.includes("@")) {
     throw new Error("Email invalid");
@@ -13,8 +16,8 @@ export const validateValues = (values: { email: string; password: string }) => {
   }
 
   return {
-    email: values.email,
-    password: values.password,
+    email: values.email as Email,
+    password: values.password as Password,
   };
 };
 
