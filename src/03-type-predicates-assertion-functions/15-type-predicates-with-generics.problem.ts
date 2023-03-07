@@ -6,8 +6,10 @@ import { Equal, Expect } from "../helpers/type-utils";
  * By changing the type definition of this interface,
  * you can fix all the errors below.
  */
+
+/** Here we see that we can even use a predicate function inside a type helper. */
 interface DOMNodeExtractorConfig<T, Result> {
-  isNode: (node: unknown) => boolean;
+  isNode: (node: unknown) => node is T;
   transform: (node: T) => Result;
 }
 
