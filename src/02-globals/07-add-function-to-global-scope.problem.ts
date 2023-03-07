@@ -17,6 +17,12 @@ import { Equal, Expect } from "../helpers/type-utils";
  * var myVar: number
  */
 
+/** Here we are declaring global variables and functions. Note the syntax of the variable. We are using the "var" keyword here. */
+declare global {
+  function myFunc(): boolean;
+  var myVar: number;
+}
+
 globalThis.myFunc = () => true;
 globalThis.myVar = 1;
 
