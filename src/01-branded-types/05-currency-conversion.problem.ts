@@ -7,6 +7,13 @@ interface User {
   maxConversionAmount: number;
 }
 
+/**
+ * Here we simulate a fintech app, which uses branded types to ensure, that the user gets authorized and the amount gets converted
+ * first, before executing the actual conversion.
+ */
+type AuthorizedUser = Brand<User, "AuthorizedUser">;
+type ConvertedAmount = Brand<number, "ValidAmount">;
+
 // Mocks a function that uses an API to convert
 // One currency to another
 const getConversionRateFromApi = async (
@@ -14,18 +21,18 @@ const getConversionRateFromApi = async (
   from: string,
   to: string,
 ) => {
-  return Promise.resolve(amount * 0.82);
+  return Promise.resolve(amount * 0.82 as ConvertedAmount);
 };
 
 // Mocks a function which actually performs the conversion
-const performConversion = async (user: User, to: string, amount: number) => {};
+const performConversion = async (user: AuthorizedUser, to: string, amount: ConvertedAmount) => {};
 
-const ensureUserCanConvert = (user: User, amount: number): User => {
+const ensureUserCanConvert = (user: User, amount: ConvertedAmount): AuthorizedUser => {
   if (user.maxConversionAmount < amount) {
     throw new Error("User cannot convert currency");
   }
 
-  return user;
+  return user as AuthorizedUser;
 };
 
 describe("Possible implementations", () => {
