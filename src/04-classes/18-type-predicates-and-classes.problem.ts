@@ -8,7 +8,19 @@ class Form<TValues> {
     private validate: (values: TValues) => string | void,
   ) {}
 
-  isInvalid() {
+  /**
+   * Here we have 2 kinds of solutions, where both actually do the same, but just use a slightly different syntax. I prefer the
+   * uncommented one.
+   *
+   * So here we use a predicate function inside a class, where we use "this" to refer the class instance AND type! WHat??
+   *
+   * So the first "this" before the "is" refers to the caller of isInvalid, which means the current instance of this class. Since we
+   * don't expect an argument in this class, we can't just use the argument, so we use "this" instead. The "this" after the "is" keyword
+   * is referring the class as type! As you can see in the commented code part, its equivalent to "Form<TValues>". So here we basically
+   * take the default type and add the part we have validated via the intersection "&" and give it the type we want it to have.
+   */
+  // isInvalid(): this is Form<TValues> & { error: string } {
+  isInvalid(): this is this & { error: string } {
     const result = this.validate(this.values);
 
     if (typeof result === "string") {
