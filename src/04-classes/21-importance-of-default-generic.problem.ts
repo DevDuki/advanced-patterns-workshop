@@ -7,7 +7,14 @@ import { expect, it } from "vitest";
  * Clue: it's somewhere inside class TypeSafeStringMap, and it's
  * on the type level - not the runtime level.
  */
-class TypeSafeStringMap<TMap extends Record<string, string>> {
+
+/**
+ * IMPORTANT: For the builder pattern, this default in the generic is very crucial, otherwise it could destroy your entire builder. By
+ * removing "= {}" from the generic, then the new default will be "Record<string, string>". Now this destroys everything, because a
+ * string as key type, will eat up all the other keys that were literal typed, like "matt", "jools", "brandi" etc. So very important, to
+ * always provide a default generic type, that fits your builder.
+ */
+class TypeSafeStringMap<TMap extends Record<string, string> = {}> {
   private map: TMap;
   constructor() {
     this.map = {} as TMap;
