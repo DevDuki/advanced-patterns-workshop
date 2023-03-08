@@ -21,7 +21,13 @@ class DynamicMiddleware<TInput, TOutput> {
   }
 
   // Clue: you'll need to make changes here!
-  use(middleware: Middleware<TInput, TOutput>): unknown {
+  /**
+   * Now this exercise is very interesting. We are taking here a new middleware function as a parameter, which as the input should the
+   * old output and returns a new output, which we are catching. It the returns a new DynamicMiddleware (basically a new this) with the
+   * original input, but it now returns the newest output! It's really cool and probably takes a few minutes to understand what's going
+   * on here. But really cool stuff really!
+   */
+  use<TNewOutput>(middleware: Middleware<TOutput, TNewOutput>): DynamicMiddleware<TInput, TNewOutput> {
     this.middleware.push(middleware);
 
     return this as any;
