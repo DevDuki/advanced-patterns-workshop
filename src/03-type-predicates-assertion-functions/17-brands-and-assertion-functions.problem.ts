@@ -11,7 +11,9 @@ interface PasswordValues {
 /**
  * 💡 You'll need to change this function...
  */
-function assertIsValidPassword(values: PasswordValues) {
+
+/** Here we use assertion function in combination with Branded types */
+function assertIsValidPassword(values: PasswordValues): asserts values is Valid<PasswordValues> {
   if (values.password !== values.confirmPassword) {
     throw new Error("Password is invalid");
   }
