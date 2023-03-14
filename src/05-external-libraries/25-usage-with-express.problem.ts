@@ -8,12 +8,16 @@ import { Equal, Expect } from "../helpers/type-utils";
 
 const app = express();
 
+/**
+ * This time we looked into express' types and used it to make a type safe get request, where query parameters are alrdy specified,
+ * without needing to use any type annotation when using the "makeTypeSafeGet" function.
+ */
 const makeTypeSafeGet =
-  (
-    parser: (queryParams: Request["query"]) => unknown,
-    handler: RequestHandler
+  <TQuery extends Request['query']>(
+    parser: (queryParams: Request["query"]) => TQuery,
+    handler: RequestHandler<any, any, any, TQuery>
   ) =>
-  (req: Request, res: Response, next: NextFunction) => {
+  (req: Request<any, any, any, TQuery>, res: Response, next: NextFunction) => {
     try {
       parser(req.query);
     } catch (e) {
