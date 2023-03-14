@@ -10,7 +10,12 @@ import { doNotExecute, Equal, Expect } from "../helpers/type-utils";
  * 2. Take a look at the typings for _.groupBy to
  * see if you can understand them.
  */
-const groupByAge = (array: unknown[]) => {
+
+/**
+ * Here we looked into lodash's d.ts files to understand how the "groupBy" function works. We then used this knowledge to create a
+ * generic function that by itself infers the type and correctly passes it to lodash's groupBy function.
+ */
+const groupByAge = <T extends Record<'age', number>>(array: T[]) => {
   const grouped = _.groupBy(array, "age");
 
   return grouped;
