@@ -1,11 +1,12 @@
 import { expect, it } from "vitest";
-import { z } from "zod";
+import { z, ZodType } from "zod";
 
-const makeZodSafeFunction = (
-  schema: unknown,
-  func: (arg: unknown) => unknown
+/** Use Zod's types to get type safety for our function */
+const makeZodSafeFunction = <TSchema extends ZodType, TReturn>(
+  schema: TSchema,
+  func: (arg: TSchema['_input']) => TReturn
 ) => {
-  return (arg: unknown) => {
+  return (arg: TSchema['_input']) => {
     const result = schema.parse(arg);
     return func(result);
   };
@@ -31,5 +32,6 @@ it("Should error on the type level AND the runtime if you pass incorrect params"
 });
 
 it("Should succeed if you pass the correct type", () => {
-  expect(addTwoNumbers({ a: 1, b: 2 })).toBe(3);
+  const result = addTwoNumbers({ a: 1, b: 2 });
+  expect(result).toBe(3);
 });
