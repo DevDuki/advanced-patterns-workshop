@@ -7,7 +7,7 @@ import { Equal, Expect } from "../helpers/type-utils";
  * able to narrow the type to only allow an array
  * of fruits.
  */
-export const narrowFruits = <TFruits>(t: TFruits) => t;
+export const narrowFruits = <TFruits extends Array<{ name: string, price: number }>>(t: F.Narrow<TFruits>) => t;
 
 const fruits = narrowFruits([
   {
