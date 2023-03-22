@@ -1,13 +1,20 @@
 // import { F } from "ts-toolbelt";
 
+import { F } from 'ts-toolbelt';
+
 /**
  * Clue: F.NoInfer is part of the solution!
  *
  * You'll need to modify the interface below
  * to get it to work.
  */
+
+/**
+ * Here we use the NoInfer type helper from ts-toolbelt, which is actually quite interesting, because it tells typescript not to infer
+ * the generic type yet, but rather go to the next usage of the generic type and infer it there.
+ * */
 interface FSMConfig<TState extends string> {
-  initial: TState;
+  initial: F.NoInfer<TState>;
   states: Record<
     TState,
     {
