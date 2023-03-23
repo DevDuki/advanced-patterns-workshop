@@ -9,6 +9,12 @@ const addAllOfThisToWindow = {
 
 Object.assign(window, addAllOfThisToWindow);
 
+/** Repetition of the declare keyword, interface merging and extending interfaces */
+declare global {
+  type AddAllOfThisToWindow = typeof addAllOfThisToWindow;
+  interface Window extends AddAllOfThisToWindow {}
+}
+
 type tests = [
   Expect<Equal<typeof window.add, (a: number, b: number) => number>>,
   Expect<Equal<typeof window.subtract, (a: number, b: number) => number>>,
