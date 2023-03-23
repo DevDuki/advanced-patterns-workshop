@@ -1,13 +1,18 @@
 import { Equal, Expect } from "../helpers/type-utils";
+import { F } from 'ts-toolbelt';
 
 interface Fruit {
   name: string;
   price: number;
 }
 
-export const wrapFruit = (fruits: unknown[]) => {
-  const getFruit = (name: unknown): unknown => {
-    return fruits.find((fruit) => fruit.name === name);
+/**
+ * Here we use the F.Narrow and Extract utility types to get the exact type of the fruit and make it able to autocomplete with the
+ * fruit's name as the getter.
+ */
+export const wrapFruit = <TFruits extends Fruit[]>(fruits: F.Narrow<TFruits>) => {
+  const getFruit = <TName extends TFruits[number]["name"]>(name: TName) => {
+    return fruits.find((fruit) => fruit.name === name) as Extract<TFruits[number], { name: TName }>;
   };
 
   return {
